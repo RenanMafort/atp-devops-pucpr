@@ -21,7 +21,5 @@ jobs:
 
     - name: Docker to push image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/moments:latest 
-        docker tag ${{ secrets.DOCKER_USERNAME }}/moments:latest ${{ secrets.DOCKER_USERNAME }}/moments:${{ github.run_id }}
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/moments:${{  github.run_id }}
         docker push ${{ secrets.DOCKER_USERNAME }}/moments:${{ github.run_id }}
-        docker push ${{ secrets.DOCKER_USERNAME }}/moments:latest
