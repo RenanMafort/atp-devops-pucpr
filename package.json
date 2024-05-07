@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint:security": "eslint . --ext .js --ext .ts --rule '{\"no-alert\": \"error\", \"no-eval\": \"error\", \"no-implicit-globals\": \"error\", \"no-script-url\": \"error\"}'"
   },
   "private": true,
   "dependencies": {
