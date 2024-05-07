@@ -56,9 +56,11 @@ jobs:
           tar -xvf ngrok-stable-linux-amd64.tgz
           sudo mv ngrok /usr/local/bin/ngrok
           chmod +x /usr/local/bin/ngrok
-
+  
       - name: Configurar authtoken do ngrok
         run: /usr/local/bin/ngrok authtoken ${{ secrets.NGROK_AUTH_TOKEN }}
   
       - name: Executar ngrok para fazer deploy
-        run: /usr/local/bin/ngrok http 4200
+        run: |
+          /usr/local/bin/ngrok update
+          /usr/local/bin/ngrok http 4200
