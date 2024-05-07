@@ -1,49 +1,36 @@
-name: Simulação de Apontamento
+name: Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+  workflow_dispatch:
 
 jobs:
-  simular-apontamento:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Configurar Variáveis de Ambiente
-      env:
-        GITHUB_ACTOR_ID: 12345
-        GITHUB_ACTOR: example_user
-        GITHUB_TRIGGERING_ACTOR: triggering_user
-        GITHUB_WORKFLOW: example_workflow
-        GITHUB_HEAD_REF: example_branch
-        GITHUB_BASE_REF: main
-        GITHUB_EVENT_NAME: push
-        GITHUB_SERVER_URL: https://github.com
-        GITHUB_API_URL: https://api.github.com
-        GITHUB_GRAPHQL_URL: https://api.github.com/graphql
-        GITHUB_REF_NAME: refs/heads/example_branch
-        GITHUB_REF_PROTECTED: true
-        GITHUB_REF_TYPE: branch
-        GITHUB_WORKFLOW_REF: refs/heads/example_workflow_branch
-        GITHUB_WORKFLOW_SHA: 67890
-        GITHUB_WORKSPACE: /github/workspace
-        GITHUB_ACTION: example_action
-        GITHUB_EVENT_PATH: /github/workflow/event.json
-        GITHUB_ACTION_REPOSITORY: actions/example-action
-        GITHUB_ACTION_REF: refs/tags/v1
-        GITHUB_PATH: /usr/bin
-        GITHUB_ENV: /github/workspace/.env
-        GITHUB_STEP_SUMMARY: example_summary
-        GITHUB_STATE: success
-        GITHUB_OUTPUT: example_output
-        RUNNER_OS: Linux
-        RUNNER_ARCH: x64
-        RUNNER_NAME: example_runner
-        RUNNER_ENVIRONMENT: staging
-        RUNNER_TOOL_CACHE: /opt/hostedtoolcache
-        RUNNER_TEMP: /home/runner/temp
-        RUNNER_WORKSPACE: /home/runner/work
+    - uses: actions/checkout@v3
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3.0.0
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Docker to push image
       run: |
-        echo "Variáveis de Ambiente Configuradas com Sucesso!"
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/moments:${{  github.run_id }} ./
+        docker push ${{ secrets.DOCKER_USERNAME }}/moments:${{ github.run_id }}
+
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: AppThreat/sast-scan-action@master
+     
+    - uses: actions/upload-artifact@v1
+      with:
+        name: reports
+        path: ./reports
