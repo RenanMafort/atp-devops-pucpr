@@ -51,14 +51,12 @@ jobs:
 
       - name: Instalar ngrok
         run: |
-          wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-          unzip ngrok-stable-linux-amd64.zip 
-          sudo mv ngrok /usr/local/bin/ngrok 
-          chmod +x /usr/local/bin/ngrok  # Conceder permissões de execução
+          sudo apt-get install wget -y
+          wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.tgz
+          tar -xvf ngrok-stable-linux-amd64.tgz
+          sudo mv ngrok /usr/local/bin/ngrok
+          chmod +x /usr/local/bin/ngrok
 
-      - name: Atualizar ngrok
-        run: /usr/local/bin/ngrok update  # Atualizar ngrok para a versão mais recente
-  
       - name: Configurar authtoken do ngrok
         run: /usr/local/bin/ngrok authtoken ${{ secrets.NGROK_AUTH_TOKEN }}
   
