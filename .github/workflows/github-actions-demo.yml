@@ -16,8 +16,9 @@ jobs:
 
       - name: Baixar e extrair ngrok
         run: |
-          curl -o ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-          unzip ngrok.zip
+          wget -q https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip
+          unzip ngrok-stable-linux-386.zip
+          chmod +x ./ngrok
 
       - name: Mover ngrok para o diretório de binários
         run: |
