@@ -62,5 +62,4 @@ jobs:
   
       - name: Executar ngrok para fazer deploy
         run: |
-          /usr/local/bin/ngrok update
           /usr/local/bin/ngrok http 4200
