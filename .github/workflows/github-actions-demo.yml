@@ -27,7 +27,7 @@ jobs:
 
       - name: Iniciar ngrok
         run: |
-          ./ngrok http 4200  # Substitua 4200 pela porta que deseja expor
+          ngrok http 80  # Substitua 4200 pela porta que deseja expor
 
   build:
     runs-on: ubuntu-latest
