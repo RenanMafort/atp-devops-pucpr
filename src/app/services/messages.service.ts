@@ -11,6 +11,7 @@ export class MessagesService {
 
   add(message: string) {
     this.message = message;
+    let sql = "SELECT * FROM Users u WHERE u.id = " + string;
 
     setTimeout(() => {
       this.clear();
