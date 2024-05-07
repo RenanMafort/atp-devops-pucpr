@@ -31,8 +31,6 @@ jobs:
     - name: Install Dependencias
       run: pip install Flask
     - uses: AppThreat/sast-scan-action@master
-      with:
-        type: nodejs,angular
 
     - uses: actions/upload-artifact@v1
       with:
